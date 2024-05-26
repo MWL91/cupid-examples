@@ -43,4 +43,14 @@ final class HealthReport implements Arrayable
             'created_at' => $this->created_at->toString()
         ];
     }
+
+    public function isCreatedAt(\DateTimeInterface $create_at): bool
+    {
+        return $this->created_at->isCreatedAt($create_at);
+    }
+
+    public function getStatus(): HealthStatus
+    {
+        return $this->status;
+    }
 }

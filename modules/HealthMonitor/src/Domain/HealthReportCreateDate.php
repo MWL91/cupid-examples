@@ -27,4 +27,9 @@ class HealthReportCreateDate
     {
         return $this->date->diff(new \DateTimeImmutable())->days > 1;
     }
+
+    public function isCreatedAt(\DateTimeInterface $create_at): bool
+    {
+        return $this->date->format('Y-m-d') === $create_at->format('Y-m-d');
+    }
 }
