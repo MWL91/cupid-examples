@@ -2,15 +2,15 @@
 
 namespace Modules\HealthMonitor\Services;
 
-use Modules\HealthMonitor\Domain\HealthStatusEnum;
-use Ramsey\Uuid\UuidInterface;
+use Modules\HealthMonitor\Domain\HealthStatus;
+use Modules\HealthMonitor\Domain\PatientId;
 
 class SpecificHealthMonitorService implements ReadHealthStateService
 {
 
-    public function readStatus(UuidInterface $patientId): HealthStatusEnum
+    public function readStatus(PatientId $patientId): HealthStatus
     {
         // here should be example implementation of reading from sth...
-        return HealthStatusEnum::POSITIVE;
+        return HealthStatus::POSITIVE;
     }
 }

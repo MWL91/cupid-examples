@@ -2,6 +2,8 @@
 
 namespace Modules\HealthMonitor\Application\CreateHealthReport;
 
+use Modules\HealthMonitor\Domain\HealthReportId;
+use Modules\HealthMonitor\Domain\PatientId;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -13,13 +15,13 @@ class CreateHealthReportCommand
     ) {
     }
 
-    public function getId(): UuidInterface
+    public function getId(): HealthReportId
     {
-        return Uuid::fromString($this->id);
+        return HealthReportId::fromString($this->id);
     }
 
-    public function getPatientId(): UuidInterface
+    public function getPatientId(): PatientId
     {
-        return Uuid::fromString($this->patientId);
+        return PatientId::fromString($this->patientId);
     }
 }

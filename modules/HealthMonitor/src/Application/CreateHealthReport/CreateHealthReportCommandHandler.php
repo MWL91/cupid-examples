@@ -2,6 +2,7 @@
 
 namespace Modules\HealthMonitor\Application\CreateHealthReport;
 
+use Modules\HealthMonitor\Domain\HealthReport;
 use Modules\HealthMonitor\Domain\HealthReportRepository;
 use Modules\HealthMonitor\Services\ReadHealthStateService;
 
@@ -16,9 +17,12 @@ class CreateHealthReportCommandHandler
 
     public function __invoke(CreateHealthReportCommand $command): void
     {
-        $report = $this->repository->load($command->getId());
+        $report = new HealthReport(
+            $command->getId(),
+            $command->getPatientId()
+        );
 
-        $report->checkStatus($this->service, $command->getPatientId());
+        $report->checkStatus($this->service);
 
         $this->repository->create($report);
     }

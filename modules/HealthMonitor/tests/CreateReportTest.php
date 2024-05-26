@@ -7,8 +7,10 @@ use Mockery\Mock;
 use Modules\HealthMonitor\Application\CreateHealthReport\CreateHealthReportCommand;
 use Modules\HealthMonitor\Application\CreateHealthReport\CreateHealthReportCommandHandler;
 use Modules\HealthMonitor\Domain\HealthReport;
+use Modules\HealthMonitor\Domain\HealthReportId;
 use Modules\HealthMonitor\Domain\HealthReportRepository;
-use Modules\HealthMonitor\Domain\HealthStatusEnum;
+use Modules\HealthMonitor\Domain\HealthStatus;
+use Modules\HealthMonitor\Domain\PatientId;
 use Modules\HealthMonitor\Services\ReadHealthStateService;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
@@ -19,20 +21,19 @@ class CreateReportTest extends TestCase
     {
         // Given:
         $command = new CreateHealthReportCommand(
-            $id = Uuid::uuid4(),
-            $patientId = Uuid::uuid4()
+            $id = HealthReportId::generate(),
+            $patientId = PatientId::generate()
         );
-        $report = new HealthReport($id);
+        $report = new HealthReport($id, $patientId);
 
         $repository = $this->createMock(HealthReportRepository::class);
         $repository->expects($this->once())
-            ->method('load')
-            ->willReturn($report);
+            ->method('create');
 
         $service = $this->createMock(ReadHealthStateService::class);
         $service->expects($this->once())
             ->method('readStatus')
-            ->willReturn(HealthStatusEnum::POSITIVE);
+            ->willReturn(HealthStatus::POSITIVE);
 
         $handler = new CreateHealthReportCommandHandler(
             $repository,
@@ -44,10 +45,5 @@ class CreateReportTest extends TestCase
 
         // Then:
         // ... nothing because mocks only!
-
-
-        Auth::user();
-
-
     }
 }

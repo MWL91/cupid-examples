@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Modules\HealthMonitor\Domain\HealthStatusEnum;
+use Modules\HealthMonitor\Domain\HealthStatus;
 
 return new class extends Migration
 {

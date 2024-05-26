@@ -2,7 +2,7 @@
 
 namespace Modules\HealthMonitor\Domain;
 
-enum HealthStatusEnum: int
+enum HealthStatus: int
 {
     case POSITIVE = 1;
     case NEGATIVE = 0;

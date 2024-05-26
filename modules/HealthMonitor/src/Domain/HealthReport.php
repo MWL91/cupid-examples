@@ -11,19 +11,28 @@ use Ramsey\Uuid\UuidInterface;
 final class HealthReport implements Arrayable
 {
     public function __construct(
-        private UuidInterface $id,
-        private ?HealthStatusEnum $status = null,
-        private ?CarbonInterface $created_at = null
+        private HealthReportId   $id,
+        private PatientId        $patientId,
+        private ?HealthStatus    $status = null,
+        private ?HealthReportCreateDate $created_at = null
     )
     {
         if($this->created_at === null) {
-            $this->created_at = CarbonImmutable::now();
+            $this->created_at = HealthReportCreateDate::now();
         }
     }
 
-    public function checkStatus(ReadHealthStateService $service, UuidInterface $patientId): void
+    public function checkStatus(ReadHealthStateService $service): void
     {
-        $this->status = $service->readStatus($patientId);
+        if($this->created_at->isOlderThanOneDay()) {
+            throw new \Exception('Cannot check status for old report');
+        }
+
+        if($this->status !== null) {
+            throw new \Exception('Status already checked');
+        }
+
+        $this->status = $service->readStatus($this->patientId);
     }
 
     public function toArray()
